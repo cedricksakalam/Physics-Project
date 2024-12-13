@@ -70,10 +70,10 @@ class Main(tk.Tk):
     def create_widgets(self):
         """This function is responsible for setting up all UI components."""
         # Header label for "Solve Physics Problems"
-        self.label = tk.Label(self, text="PhyCalc: Your Physics Partner", bg='#03254c', font=("Arial", 80, "bold"), fg='#d0efff')
+        self.label = tk.Label(self, text="PhyCalc: Your Physics Buddy", bg='#03254c', font=("Arial", 80, "bold"), fg='#d0efff')
         self.label.pack(pady=100)
 
-        self.label = tk.Label(self, text="Power up your physics with a calculator that tackles electricity mechanics and sound waves, delivering fast, accurate results every time!", bg='#03254c', font=("Papyrus", 20, "bold"), fg='#d0efff')
+        self.label = tk.Label(self, text="Power up your physics with a calculator that tackles electricity, mechanics, and sound waves, delivering fast, accurate results every time!", bg='#03254c', font=("Papyrus", 20, "bold"), fg='#d0efff')
         self.label.pack(pady=50)
         
         button_frame = tk.Frame(self, bg='#03254c')
@@ -87,12 +87,6 @@ class Main(tk.Tk):
         
         self.soundwaves = tk.Button(button_frame, text="Solve for Sound Waves", bg='#40B7FF', font=("Georgia", 30), command=self.solve_Waves)
         self.soundwaves.pack(side="left", padx=60)
-        
-        help_frame = tk.Frame(self, bg='#03254c')
-        help_frame.pack(side="bottom", fill="x")
-        
-        self.help_button = tk.Button(help_frame, text="Help", bg='#40B7FF', font=("Georgia", 15))
-        self.help_button.pack(side="right", padx=20, pady=10)
 
     def solve_mechanics(self):
         from mechanics import MechanicsCalculator
