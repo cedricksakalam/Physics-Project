@@ -81,15 +81,18 @@ class Main(tk.Tk):
         
         self.electricity = tk.Button(button_frame, text="Solve for Electricity", font=("Georgia", 30), bg='#40B7FF', command=self.solve_electricity)
         self.electricity.pack(side="left", padx=60)
-        
-        self.help_button = tk.Button(self, text="Help", bg='#b9cea4', font=("Georgia", 20))
-        self.help_button.place(relx=0.95, rely=0.95, anchor="ne")
 
         self.mechanics = tk.Button(button_frame, text="Solve for Mechanics", bg='#40B7FF', font=("Georgia", 30), command=self.solve_mechanics)
         self.mechanics.pack(side="left", padx=60)
         
         self.soundwaves = tk.Button(button_frame, text="Solve for Sound Waves", bg='#40B7FF', font=("Georgia", 30), command=self.solve_Waves)
         self.soundwaves.pack(side="left", padx=60)
+        
+        help_frame = tk.Frame(self, bg='#03254c')
+        help_frame.pack(side="bottom", fill="x")
+        
+        self.help_button = tk.Button(help_frame, text="Help", bg='#40B7FF', font=("Georgia", 15))
+        self.help_button.pack(side="right", padx=20, pady=10)
 
     def solve_mechanics(self):
         from mechanics import MechanicsCalculator
