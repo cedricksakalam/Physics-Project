@@ -4,10 +4,10 @@ from PIL import Image, ImageTk
 class Main(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Physics Solver")
+        self.title("PhyCalc")
         self.geometry("1920x1080")
         self.config(bg="#03254c") 
-        self.state('zoomed')  # Start window maximized
+        self.state('zoomed') 
         self.create_widgets()
         
         self.bottom_frames = self.load_gif("C:/Users/ced/Physics Project/Physics/src/mechanics.gif")
@@ -50,17 +50,14 @@ class Main(tk.Tk):
         return frames
 
     def update_backgrounds(self):
-        # Update bottom GIF
         bottom_frame = self.bottom_frames[self.bottom_current_frame_index]
         self.bottom_label.config(image=bottom_frame)
         self.bottom_current_frame_index = (self.bottom_current_frame_index + 1) % len(self.bottom_frames)
 
-        # Update left GIF
         left_frame = self.left_frames[self.left_current_frame_index]
         self.left_label.config(image=left_frame)
         self.left_current_frame_index = (self.left_current_frame_index + 1) % len(self.left_frames)
 
-        # Update right GIF
         right_frame = self.right_frames[self.right_current_frame_index]
         self.right_label.config(image=right_frame)
         self.right_current_frame_index = (self.right_current_frame_index + 1) % len(self.right_frames)
@@ -68,8 +65,6 @@ class Main(tk.Tk):
         self.after(100, self.update_backgrounds)
 
     def create_widgets(self):
-        """This function is responsible for setting up all UI components."""
-        # Header label for "Solve Physics Problems"
         self.label = tk.Label(self, text="PhyCalc: Your Physics Buddy", bg='#03254c', font=("Arial", 80, "bold"), fg='#d0efff')
         self.label.pack(pady=100)
 
@@ -79,29 +74,46 @@ class Main(tk.Tk):
         button_frame = tk.Frame(self, bg='#03254c')
         button_frame.pack(pady=40)
         
-        self.electricity = tk.Button(button_frame, text="Solve for Electricity", font=("Georgia", 30), bg='#40B7FF', command=self.solve_electricity)
+        self.electricity = tk.Button(button_frame, 
+                                     text="Solve for Electricity", 
+                                     font=("Georgia", 30), 
+                                     activebackground='#40B7FF', 
+                                     activeforeground='#d0efff', 
+                                     bg='#40B7FF', 
+                                     command=self.solve_electricity)
         self.electricity.pack(side="left", padx=60)
 
-        self.mechanics = tk.Button(button_frame, text="Solve for Mechanics", bg='#40B7FF', font=("Georgia", 30), command=self.solve_mechanics)
+        self.mechanics = tk.Button(button_frame, 
+                                   text="Solve for Mechanics", 
+                                   bg='#40B7FF', 
+                                   font=("Georgia", 30), 
+                                   activebackground='#40B7FF', 
+                                   activeforeground='#d0efff', 
+                                   command=self.solve_mechanics)
         self.mechanics.pack(side="left", padx=60)
         
-        self.soundwaves = tk.Button(button_frame, text="Solve for Sound Waves", bg='#40B7FF', font=("Georgia", 30), command=self.solve_Waves)
+        self.soundwaves = tk.Button(button_frame, 
+                                    text="Solve for Sound Waves", 
+                                    bg='#40B7FF', font=("Georgia", 30),
+                                    activebackground='#40B7FF', 
+                                    activeforeground='#d0efff', 
+                                    command=self.solve_Waves)
         self.soundwaves.pack(side="left", padx=60)
 
     def solve_mechanics(self):
         from mechanics import MechanicsCalculator
-        self.mechanics_window = tk.Toplevel(self)  # Create a new Toplevel window
-        self.mechanics_calculator = MechanicsCalculator(self.mechanics_window)  # Pass the Toplevel window to the calculator
+        self.mechanics_window = tk.Toplevel(self) 
+        self.mechanics_calculator = MechanicsCalculator(self.mechanics_window) 
 
     def solve_Waves(self):
         from Waves import SoundWaveCalculator
-        self.waves_window = tk.Toplevel(self)  # Create a new Toplevel window
-        self.waves_calculator = SoundWaveCalculator(self.waves_window)  # Pass the Toplevel window to the calculator
+        self.waves_window = tk.Toplevel(self)
+        self.waves_calculator = SoundWaveCalculator(self.waves_window) 
 
     def solve_electricity(self):
         from Electricity import ElectricityCalculator
-        self.electricity_window = tk.Toplevel(self)  # Create a new Toplevel window
-        self.electricity_calculator = ElectricityCalculator(self.electricity_window)  # Pass the Toplevel window to the calculator
+        self.electricity_window = tk.Toplevel(self)  
+        self.electricity_calculator = ElectricityCalculator(self.electricity_window)  
 
 if __name__ == "__main__":
     app = Main()
