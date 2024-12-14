@@ -43,18 +43,18 @@ class SoundWaveCalculator:
             anchor="center",
             style="TLabel"
         )
-        self.title_label.grid(row=0, column=0, columnspan=2, pady=(10, 20), sticky="n")
+        self.title_label.grid(row=0, column=0, columnspan=2, pady=(50, 20), sticky="n")
 
         # Description label
         self.description_label = ttk.Label(
             self.main_frame,
             text="Focuses on the calculation of properties of sound waves like frequency, wavelength, and speed.",
-            font=("Arial", 13),
+            font=("Arial", 20),
             anchor="center",
             justify="center",
             style="TLabel"
         )
-        self.description_label.grid(row=1, column=0, columnspan=2, pady=(5, 10), sticky="n")
+        self.description_label.grid(row=1, column=0, columnspan=2, pady=(100, 10), sticky="n")
 
         # Operation label
         self.operation_label = ttk.Label(self.main_frame, text="Select Operation:", font=("Arial", 15, "bold"), style="TLabel")
@@ -117,28 +117,49 @@ class SoundWaveCalculator:
             label.grid(row=idx + 1, column=0, sticky="ew", padx=10, pady=5)
             entry.grid(row=idx + 1, column=1, sticky="ew", padx=10, pady=5)
 
+            # Define unit labels
+            unit_label = ttk.Label(self.input_frame, font=("Arial", 12), text="", style="TLabel")
+            if field == "period":
+                unit_label.config(text="s (seconds)")
+            elif field == "frequency":
+                unit_label.config(text="Hz (Hertz)")
+            elif field == "wavelength":
+                unit_label.config(text="m (meters)")
+            elif field == "speed_of_sound":
+                unit_label.config(text="m/s (meters per second)")
+
+            unit_label.grid(row=idx + 1, column=2, sticky="w", padx=10, pady=5)
+
             self.input_frame.grid_columnconfigure(0, weight=1)
             self.input_frame.grid_columnconfigure(1, weight=3)
 
-            self.inputs[field] = (label, entry)
+            self.inputs[field] = (label, entry, unit_label)
             label.grid_remove()
             entry.grid_remove()
+            unit_label.grid_remove()
 
     def update_input_fields(self, event=None):
-        for label, entry in self.inputs.values():
+        # Hide all input fields initially
+        for label, entry, unit_label in self.inputs.values():
             label.grid_remove()
             entry.grid_remove()
+            unit_label.grid_remove()
 
+        # Get the selected operation
         operation = self.operation_var.get()
         if operation in self.operations:
             func, required_fields, formula = self.operations[operation]
             self.formula_label.config(text=f"Formula: {formula}")
+
+            # Show required input fields with units
             for idx, field in enumerate(required_fields):
                 if field in self.inputs:
-                    label, entry = self.inputs[field]
+                    label, entry, unit_label = self.inputs[field]
                     label.grid(row=idx + 1, column=0, sticky="w", padx=5, pady=5)
                     entry.grid(row=idx + 1, column=1, sticky="ew", padx=5, pady=5)
+                    unit_label.grid(row=idx + 1, column=2, sticky="w", padx=10, pady=5)
 
+            # Show the calculate button
             self.calculate_button.grid(row=len(required_fields) + 4, column=1, pady=10, sticky="nsew")
             self.calculate_button.grid()
 
@@ -147,14 +168,29 @@ class SoundWaveCalculator:
         if operation in self.operations:
             func, required_fields, formula = self.operations[operation]
             try:
+                # Extract and convert input values
                 values = {field: float(self.inputs[field][1].get()) for field in required_fields}
+                
+                # Perform the calculation
                 result = func(**values)
-                self.output_label.config(text=f"Result: {result:.2f}")
+                
+                # Determine units based on the operation
+                unit_map = {
+                    "Frequency": "Hz",  # Hertz
+                    "Wavelength": "m",  # Meters
+                    "Speed of Sound": "m/s",  # Meters per second
+                    "Period": "s",  # Seconds
+                }
+                
+                unit = unit_map.get(operation, "")  # Get the appropriate unit
+                
+                # Display the result with the unit
+                self.output_label.config(text=f"Result: {result:.2f} {unit}")
                 self.output_label.grid()
-            except ValueError as e:
-                messagebox.showerror("Error", "Enter valid values")  # Shows the error message
-            except Exception as e:
-                messagebox.showerror("Notice", "Please select operation first!")
+            except ValueError:
+                messagebox.showerror("Error", "Enter valid numerical values.")
+            except Exception:
+                messagebox.showerror("Notice", "Please select an operation first!")
 
     def back(self):
         self.root.destroy()

@@ -108,31 +108,37 @@ class MechanicsCalculator:
 
     def create_input_fields(self):
         fields = [
-            "initial_velocity", "acceleration", "time", "final_velocity",
-            "mass", "velocity", "force", "displacement", "angle", "work",
-            "radius", "period", "lever_arm", "angular_displacement", "angular_velocity"
+            ("initial_velocity", "m/s"), ("acceleration", "m/s²"), ("time", "s"), ("final_velocity", "m/s"),
+            ("mass", "kg"), ("velocity", "m/s"), ("force", "N"), ("displacement", "m"), ("angle", "°"), 
+            ("work", "J"), ("radius", "m"), ("period", "s"), ("lever_arm", "m"), ("angular_displacement", "rad"), 
+            ("angular_velocity", "rad/s")
         ]
 
-        for idx, field in enumerate(fields):
+        for idx, (field, unit) in enumerate(fields):
             label = ttk.Label(self.input_frame, font=("Arial", 15), text=f"{field.replace('_', ' ').capitalize()}:", style="TLabel")
             entry = ttk.Entry(self.input_frame, font=("Arial", 15))
-            
-            label.grid(row=idx + 1, column=0, sticky="ew", padx=10, pady=5) 
+            unit_label = ttk.Label(self.input_frame, font=("Arial", 15), text=unit, style="TLabel")
+
+            # Adding unit label in the second column to align with input fields
+            label.grid(row=idx + 1, column=0, sticky="ew", padx=10, pady=5)
             entry.grid(row=idx + 1, column=1, sticky="ew", padx=10, pady=5)
-            
+            unit_label.grid(row=idx + 1, column=2, sticky="w", padx=10, pady=5)
+
             self.input_frame.grid_columnconfigure(0, weight=1)
             self.input_frame.grid_columnconfigure(1, weight=3)
 
-            self.inputs[field] = (label, entry)
+            self.inputs[field] = (label, entry, unit_label)
             label.grid_remove()
             entry.grid_remove()
+            unit_label.grid_remove()
 
     def update_input_fields(self, event=None):
         """Update input fields based on selected operation."""
         # Hide all inputs initially
-        for label, entry in self.inputs.values():
+        for label, entry, unit_label in self.inputs.values():
             label.grid_remove()
             entry.grid_remove()
+            unit_label.grid_remove()
 
         operation = self.operation_var.get()  # Get selected operation
         if operation in self.operations:
@@ -146,9 +152,10 @@ class MechanicsCalculator:
             # Show required input fields
             for idx, field in enumerate(required_fields):
                 if field in self.inputs:
-                    label, entry = self.inputs[field]
+                    label, entry, unit_label = self.inputs[field]
                     label.grid(row=idx + 1, column=0, sticky="w", padx=5, pady=5)
                     entry.grid(row=idx + 1, column=1, padx=5, pady=5, sticky="ew")
+                    unit_label.grid(row=idx + 1, column=2, sticky="w", padx=10, pady=5)
 
             # Show calculate button
             self.calculate_button.grid(row=len(required_fields) + 2, column=1, pady=10, sticky="nsew")
@@ -171,7 +178,7 @@ class MechanicsCalculator:
 
             # Set input values into Mechanics instance
             for field in required_fields:
-                label, entry = self.inputs[field]
+                label, entry, _ = self.inputs[field]
                 value = entry.get()
                 if value.strip() == "":
                     raise ValueError(f"Please enter a value for {field.replace('_', ' ').capitalize()}")

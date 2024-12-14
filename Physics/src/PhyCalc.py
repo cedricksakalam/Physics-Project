@@ -74,29 +74,38 @@ class Main(tk.Tk):
         button_frame = tk.Frame(self, bg='#03254c')
         button_frame.pack(pady=40)
         
+        button_width = 20  # Adjust the width as needed
+        button_height = 1  # Adjust the height as needed
+
         self.electricity = tk.Button(button_frame, 
                                     text="Solve for Electricity", 
-                                    font=("Georgia", 30), 
+                                    font=("Georgia", 20), 
                                     activebackground='#40B7FF', 
                                     activeforeground='#d0efff', 
                                     bg='#40B7FF', 
+                                    width=button_width, 
+                                    height=button_height,
                                     command=self.solve_electricity)
         self.electricity.pack(side="left", padx=60)
 
         self.mechanics = tk.Button(button_frame, 
-                                   text="Solve for Mechanics", 
-                                   bg='#40B7FF', 
-                                   font=("Georgia", 30), 
-                                   activebackground='#40B7FF', 
-                                   activeforeground='#d0efff', 
-                                   command=self.solve_mechanics)
+                                text="Solve for Mechanics", 
+                                bg='#40B7FF', 
+                                font=("Georgia", 20), 
+                                activebackground='#40B7FF', 
+                                activeforeground='#d0efff', 
+                                width=button_width, 
+                                height=button_height,
+                                command=self.solve_mechanics)
         self.mechanics.pack(side="left", padx=60)
         
         self.soundwaves = tk.Button(button_frame, 
                                     text="Solve for Sound Waves", 
-                                    bg='#40B7FF', font=("Georgia", 30),
+                                    bg='#40B7FF', font=("Georgia", 20),
                                     activebackground='#40B7FF', 
                                     activeforeground='#d0efff', 
+                                    width=button_width, 
+                                    height=button_height,
                                     command=self.solve_Waves)
         self.soundwaves.pack(side="left", padx=60)
 
