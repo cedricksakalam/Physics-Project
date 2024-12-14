@@ -65,7 +65,7 @@ class Main(tk.Tk):
         self.after(100, self.update_backgrounds)
 
     def create_widgets(self):
-        self.label = tk.Label(self, text="PhyCalc: Your Physics Buddy", bg='#03254c', font=("Arial", 80, "bold"), fg='#d0efff')
+        self.label = tk.Label(self, text="PhyCalc: Your Physics Buddy", bg='#03254c', font=("Papyrus", 80, "bold"), fg='#d0efff')
         self.label.pack(pady=100)
 
         self.label = tk.Label(self, text="Power up your physics with a calculator that tackles electricity, mechanics, and sound waves, delivering fast, accurate results every time!", bg='#03254c', font=("Papyrus", 20, "bold"), fg='#d0efff')
@@ -75,12 +75,12 @@ class Main(tk.Tk):
         button_frame.pack(pady=40)
         
         self.electricity = tk.Button(button_frame, 
-                                     text="Solve for Electricity", 
-                                     font=("Georgia", 30), 
-                                     activebackground='#40B7FF', 
-                                     activeforeground='#d0efff', 
-                                     bg='#40B7FF', 
-                                     command=self.solve_electricity)
+                                    text="Solve for Electricity", 
+                                    font=("Georgia", 30), 
+                                    activebackground='#40B7FF', 
+                                    activeforeground='#d0efff', 
+                                    bg='#40B7FF', 
+                                    command=self.solve_electricity)
         self.electricity.pack(side="left", padx=60)
 
         self.mechanics = tk.Button(button_frame, 

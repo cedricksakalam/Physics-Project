@@ -43,18 +43,18 @@ class ElectricityCalculator:
             anchor="center",
             style="TLabel"
         )
-        self.title_label.grid(row=0, column=0, columnspan=2, pady=(10, 20), sticky="n")
+        self.title_label.grid(row=0, column=0, columnspan=2, pady=(50, 20), sticky="n")
 
         # Description label
         self.description_label = ttk.Label(
             self.main_frame,
             text="Focuses on the calculation of electrical quantities like voltage, current, resistance, power, and energy.",
-            font=("Arial", 13),
+            font=("Arial", 20,),
             anchor="center",
             justify="center",
             style="TLabel"
         )
-        self.description_label.grid(row=1, column=0, columnspan=2, pady=(5, 10), sticky="n")
+        self.description_label.grid(row=1, column=0, columnspan=2, pady=(100, 10), sticky="n")
 
         # Operation label
         self.operation_label = ttk.Label(self.main_frame, text="Select Operation:", font=("Arial", 15, "bold"), style="TLabel")
@@ -80,7 +80,7 @@ class ElectricityCalculator:
             font=("Arial", 18),
             style="TCombobox",
         )
-        self.operation_menu.grid(row=2, column=0, padx=200, pady=20, sticky="w")
+        self.operation_menu.grid(row=2, column=0, padx=200, pady=100, sticky="w")
         self.operation_menu.bind("<<ComboboxSelected>>", self.update_input_fields)
 
         # Input fields frame

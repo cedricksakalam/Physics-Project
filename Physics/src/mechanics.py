@@ -40,37 +40,37 @@ class MechanicsCalculator:
             anchor="center",
             style="TLabel"
         )
-        self.title_label.grid(row=0, column=0, columnspan=2, pady=(10, 20), sticky="n")
+        self.title_label.grid(row=0, column=0, columnspan=2, pady=(50, 20), sticky="n")
 
         self.description_label = ttk.Label(
             self.main_frame,
             text="Focuses on the motion of objects and the forces that affect them. It includes concepts such as \nNewton's laws, kinematics, dynamics, and statics, applicable in understanding the physical behavior of systems.",
-            font=("Arial", 13),
+            font=("Arial", 20),
             anchor="center",
             justify="center",
             style="TLabel"
         )
-        self.description_label.grid(row=1, column=0, columnspan=2, pady=(5, 10), sticky="n")
+        self.description_label.grid(row=1, column=0, columnspan=2, pady=(100, 10), sticky="n")
 
         self.operation_label = ttk.Label(self.main_frame, text="Select Operation:", font=("Arial", 15, "bold"), style="TLabel")
         self.operation_label.grid(row=2, column=0, padx=20, pady=20, sticky="w")
         
         self.operations = {
-            "Velocity": (self.calculate_velocity, ["initial_velocity", "acceleration", "time"], "v = u + at"),
-            "Displacement": (self.calculate_displacement, ["initial_velocity", "acceleration", "time"], "s = ut + 1/2 * a * t^2"),
-            "Acceleration": (self.calculate_acceleration, ["final_velocity", "initial_velocity", "time"], "a = (v - u) / t"),
-            "Force": (self.calculate_force, ["mass", "acceleration"], "F = m * a"),
-            "Work": (self.calculate_work, ["force", "displacement", "angle"], "W = F * d * cos(θ)"),
-            "Kinetic Energy": (self.calculate_kinetic_energy, ["mass", "velocity"], "KE = 1/2 * m * v^2"),
-            "Power": (self.calculate_power, ["work", "time"], "P = W / t"),
-            "Momentum": (self.calculate_momentum, ["mass", "velocity"], "p = m * v"),
-            "Impulse": (self.calculate_impulse, ["force", "time"], "I = F * t"),
-            "Circular Velocity": (self.calculate_circular_velocity, ["radius", "period"], "v = 2 * π * r / T"),
-            "Centripetal Acceleration": (self.calculate_centripetal_acceleration, ["velocity", "radius"], "a_c = v^2 / r"),
-            "Torque": (self.calculate_torque, ["force", "lever_arm"], "τ = F * r * sin(θ)"),
-            "Angular Velocity": (self.calculate_angular_velocity, ["angular_displacement", "time"], "ω = θ / t"),
-            "Angular Acceleration": (self.calculate_angular_acceleration, ["angular_velocity", "time"], "α = (ω - ω_0) / t"),
-        }
+            "Velocity": (self.calculate_velocity, ["initial_velocity", "acceleration", "time"], "v = u + at", "m/s"),
+            "Displacement": (self.calculate_displacement, ["initial_velocity", "acceleration", "time"], "s = ut + 1/2 * a * t^2", "m"),
+            "Acceleration": (self.calculate_acceleration, ["final_velocity", "initial_velocity", "time"], "a = (v - u) / t", "m/s²"),
+            "Force": (self.calculate_force, ["mass", "acceleration"], "F = m * a", "N"),
+            "Work": (self.calculate_work, ["force", "displacement", "angle"], "W = F * d * cos(θ)", "J"),
+            "Kinetic Energy": (self.calculate_kinetic_energy, ["mass", "velocity"], "KE = 1/2 * m * v^2", "J"),
+            "Power": (self.calculate_power, ["work", "time"], "P = W / t", "W"),
+            "Momentum": (self.calculate_momentum, ["mass", "velocity"], "p = m * v", "kg·m/s"),
+            "Impulse": (self.calculate_impulse, ["force", "time"], "I = F * t", "N·s"),
+            "Circular Velocity": (self.calculate_circular_velocity, ["radius", "period"], "v = 2 * π * r / T", "m/s"),
+            "Centripetal Acceleration": (self.calculate_centripetal_acceleration, ["velocity", "radius"], "a_c = v^2 / r", "m/s²"),
+            "Torque": (self.calculate_torque, ["force", "lever_arm"], "τ = F * r * sin(θ)", "N·m"),
+            "Angular Velocity": (self.calculate_angular_velocity, ["angular_displacement", "time"], "ω = θ / t", "rad/s"),
+            "Angular Acceleration": (self.calculate_angular_acceleration, ["angular_velocity", "time"], "α = (ω - ω_0) / t", "rad/s²"),
+            }
 
         self.operation_var = tk.StringVar()
         self.operation_menu = ttk.Combobox(
@@ -128,49 +128,66 @@ class MechanicsCalculator:
             entry.grid_remove()
 
     def update_input_fields(self, event=None):
+        """Update input fields based on selected operation."""
+        # Hide all inputs initially
         for label, entry in self.inputs.values():
             label.grid_remove()
             entry.grid_remove()
 
-        operation = self.operation_var.get()
+        operation = self.operation_var.get()  # Get selected operation
         if operation in self.operations:
-            func, required_fields, formula = self.operations[operation]
+            # Retrieve operation details
+            func, required_fields, formula, unit = self.operations[operation]
+
+            # Display formula
             self.formula_label.config(text=f"Formula: {formula}")
+            self.formula_label.grid()
+
+            # Show required input fields
             for idx, field in enumerate(required_fields):
                 if field in self.inputs:
                     label, entry = self.inputs[field]
                     label.grid(row=idx + 1, column=0, sticky="w", padx=5, pady=5)
                     entry.grid(row=idx + 1, column=1, padx=5, pady=5, sticky="ew")
 
-            self.calculate_button.grid()  
+            # Show calculate button
+            self.calculate_button.grid(row=len(required_fields) + 2, column=1, pady=10, sticky="nsew")
+            self.output_label.grid_remove()
         else:
+            # Hide formula and calculate button if no operation is selected
             self.formula_label.config(text="")
+            self.formula_label.grid_remove()
             self.calculate_button.grid_remove()  
 
     def calculate(self):
+        """Perform the selected operation and display the result."""
         try:
-            for key, (label, entry) in self.inputs.items():
-                value = entry.get()
-                if value:
-                    setattr(self.mechanics, key, float(value))
-                elif key in self.operations[self.operation_var.get()][1]:
-                    raise ValueError(f"Please enter a value for {label.cget('text').split(':')[0]}")
-
+            # Retrieve selected operation
             operation = self.operation_var.get()
             if not operation:
                 raise ValueError("No operation selected.")
 
-            func, _, _ = self.operations[operation]
+            func, required_fields, formula, unit = self.operations[operation]
+
+            # Set input values into Mechanics instance
+            for field in required_fields:
+                label, entry = self.inputs[field]
+                value = entry.get()
+                if value.strip() == "":
+                    raise ValueError(f"Please enter a value for {field.replace('_', ' ').capitalize()}")
+                setattr(self.mechanics, field, float(value))
+
+            # Perform calculation
             result = func()
 
-            self.output_label.config(text=f"Result: {result:.4f}")
+            # Display result
+            self.output_label.config(text=f"Result: {result:.4f} {unit}")
             self.output_label.grid()
-
         except ValueError as e:
-            messagebox.showerror("Error", f"Enter valid values") 
+            messagebox.showerror("Error", str(e))
         except Exception as e:
-            messagebox.showerror("Notice", f"Please select operation first!")
-
+            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+            
     def back(self):
         self.root.destroy()
 
