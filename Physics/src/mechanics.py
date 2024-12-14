@@ -7,6 +7,7 @@ class MechanicsCalculator:
         self.mechanics = Mechanics()
         self.root = root
         self.root.title("Mechanics Calculator")
+        self.root.iconbitmap("C:/Users/ced/Physics Project/Physics/src/Icon.ico")
         
         # Define the style for ttk widgets
         style = ttk.Style()
@@ -96,7 +97,7 @@ class MechanicsCalculator:
         self.formula_label.grid(row=0, column=0, padx=10, pady=(10, 20), sticky="nsew")
 
         self.output_label = ttk.Label(self.input_frame, text="Result: ", font=("Arial", 18), anchor="center", style="TLabel")
-        self.output_label.grid(row=len(self.inputs) + 3, column=0, padx=10, pady=10, sticky="nsew")
+        self.output_label.grid(row=len(self.inputs) + 3, column=1, padx=10, pady=10, sticky="nsew")
         self.output_label.grid_remove() 
 
         self.calculate_button = ttk.Button(self.input_frame, text="Calculate", command=self.calculate, style="TButton")

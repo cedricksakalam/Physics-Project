@@ -5,6 +5,7 @@ class ElectricityCalculator:
     def __init__(self, root):
         self.root = root
         self.root.title("Electricity Calculator")
+        self.root.iconbitmap("C:/Users/ced/Physics Project/Physics/src/Icon.ico")
 
         # Make the window full-screen
         self.root.state('zoomed')
@@ -80,7 +81,7 @@ class ElectricityCalculator:
             font=("Arial", 18),
             style="TCombobox",
         )
-        self.operation_menu.grid(row=2, column=0, padx=200, pady=100, sticky="w")
+        self.operation_menu.grid(row=2, column=0, padx=200, pady=20, sticky="w")
         self.operation_menu.bind("<<ComboboxSelected>>", self.update_input_fields)
 
         # Input fields frame
@@ -134,11 +135,13 @@ class ElectricityCalculator:
             unit_label.grid_remove()
 
     def update_input_fields(self, event=None):
+        # Hide all input fields initially
         for label, entry, unit_label in self.inputs.values():
             label.grid_remove()
             entry.grid_remove()
             unit_label.grid_remove()
 
+        # Show the input fields related to the selected operation
         operation = self.operation_var.get()
         if operation in self.operations:
             func, required_fields, formula, _ = self.operations[operation]
@@ -150,18 +153,29 @@ class ElectricityCalculator:
                     entry.grid(row=idx + 1, column=1, sticky="ew", padx=5, pady=5)
                     unit_label.grid(row=idx + 1, column=2, sticky="w", padx=5, pady=5)
 
-            self.calculate_button.grid(row=len(required_fields) + 4, column=1, pady=10, sticky="nsew")
+            # Show the calculate button
+            self.calculate_button.grid(row=len(required_fields) + 1, column=1, pady=10, sticky="nsew")
             self.calculate_button.grid()
+
+            # Ensure the output label is hidden until calculation
+            self.output_label.grid_remove()
 
     def calculate(self):
         operation = self.operation_var.get()
         if operation in self.operations:
             func, required_fields, formula, unit = self.operations[operation]
             try:
+                # Retrieve input values
                 values = {field: float(self.inputs[field][1].get()) for field in required_fields}
+                
+                # Perform the calculation
                 result = func(**values)
+                
+                # Display the result in output_label
                 self.output_label.config(text=f"Result: {result:.2f} {unit}")
-                self.output_label.grid()
+                
+                # Ensure the output label is visible after calculation
+                self.output_label.grid(row=len(required_fields) + 2, column=0, columnspan=2, pady=10, sticky="nsew")
             except ValueError:
                 messagebox.showerror("Error", "Enter valid values")
             except Exception as e:

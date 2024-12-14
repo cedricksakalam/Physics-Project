@@ -5,6 +5,7 @@ class SoundWaveCalculator:
     def __init__(self, root):   
         self.root = root
         self.root.title("Sound Waves Calculator")
+        self.root.iconbitmap("C:/Users/ced/Physics Project/Physics/src/Icon.ico")
         
         # Make the window full-screen
         self.root.state('zoomed')
@@ -95,7 +96,7 @@ class SoundWaveCalculator:
 
         # Output label and calculate button
         self.output_label = ttk.Label(self.input_frame, text="Result: ", font=("Arial", 18), anchor="center", style="TLabel")
-        self.output_label.grid(row=len(self.inputs) + 3, column=0, padx=10, pady=10, sticky="nsew")
+        self.output_label.grid(row=len(self.inputs) + 3, column=1, padx=10, pady=10, sticky="nsew")
         self.output_label.grid_remove()
 
         self.calculate_button = ttk.Button(self.input_frame, text="Calculate", command=self.calculate, style="TButton")
@@ -107,7 +108,7 @@ class SoundWaveCalculator:
 
     def create_input_fields(self):
         fields = [
-            "period", "frequency", "wavelength", "speed of sound"
+            "period", "frequency", "wavelength", "speed_of_sound"
         ]
 
         for idx, field in enumerate(fields):
@@ -134,9 +135,10 @@ class SoundWaveCalculator:
             self.input_frame.grid_columnconfigure(1, weight=3)
 
             self.inputs[field] = (label, entry, unit_label)
-            label.grid_remove()
-            entry.grid_remove()
-            unit_label.grid_remove()
+            label.grid_remove()  # Initially hide input fields
+            entry.grid_remove()  # Initially hide input fields
+            unit_label.grid_remove()  # Initially hide unit labels
+
 
     def update_input_fields(self, event=None):
         # Hide all input fields initially
@@ -151,7 +153,7 @@ class SoundWaveCalculator:
             func, required_fields, formula = self.operations[operation]
             self.formula_label.config(text=f"Formula: {formula}")
 
-            # Show required input fields with units
+            # Show required input fields with units for the selected operation
             for idx, field in enumerate(required_fields):
                 if field in self.inputs:
                     label, entry, unit_label = self.inputs[field]
@@ -165,6 +167,11 @@ class SoundWaveCalculator:
 
     def calculate(self):
         operation = self.operation_var.get()
+        
+        if not operation:  # Check if no operation is selected
+            messagebox.showerror("Error", "Please select an operation first!")
+            return
+
         if operation in self.operations:
             func, required_fields, formula = self.operations[operation]
             try:
@@ -190,7 +197,7 @@ class SoundWaveCalculator:
             except ValueError:
                 messagebox.showerror("Error", "Enter valid numerical values.")
             except Exception:
-                messagebox.showerror("Notice", "Please select an operation first!")
+                messagebox.showerror("Notice", "An error occurred during the calculation.")
 
     def back(self):
         self.root.destroy()

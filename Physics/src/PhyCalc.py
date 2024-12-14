@@ -5,8 +5,10 @@ class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("PhyCalc")
+        self.iconbitmap("C:/Users/ced/Physics Project/Physics/src/Icon.ico")
         self.geometry("1920x1080")
         self.config(bg="#1d2b36") 
+        self.resizable(False, False)
         self.state('zoomed') 
         self.create_widgets()
         
@@ -88,15 +90,15 @@ class Main(tk.Tk):
                                     command=self.solve_electricity)
         self.electricity.pack(side="left", padx=60)
 
-        self.mechanics = tk.Button(button_frame, 
-                                text="Solve for Mechanics", 
-                                bg='#40B7FF', 
-                                font=("Impact", 20), 
-                                activebackground='#40B7FF', 
-                                activeforeground='#d0efff', 
-                                width=button_width, 
-                                height=button_height,
-                                command=self.solve_mechanics)
+        self.mechanics = tk.Button(button_frame,
+                                    text="Solve for Mechanics", 
+                                    bg='#40B7FF', 
+                                    font=("Impact", 20), 
+                                    activebackground='#40B7FF', 
+                                    activeforeground='#d0efff', 
+                                    width=button_width, 
+                                    height=button_height,
+                                    command=self.solve_mechanics)
         self.mechanics.pack(side="left", padx=60)
         
         self.soundwaves = tk.Button(button_frame, 
