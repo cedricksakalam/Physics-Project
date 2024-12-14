@@ -1,6 +1,4 @@
-from constants import pi
 import math
-
 
 class Mechanics:
     def __init__(self, initial_velocity=1, acceleration=1, time=1, final_velocity=1,
@@ -22,6 +20,7 @@ class Mechanics:
         self.lever_arm = lever_arm
         self.angular_displacement = angular_displacement
         self.angular_velocity = angular_velocity
+        self.pi = 3.141592653589793
 
     def calculate_velocity(self):
         return self.initial_velocity + self.acceleration * self.time
@@ -60,7 +59,7 @@ class Mechanics:
         return self.force * self.time
 
     def calculate_circular_velocity(self):
-        return 2 * pi * self.radius / self.period
+        return 2 * self.pi * self.radius / self.period
 
     def calculate_centripetal_acceleration(self):
         return self.velocity ** 2 / self.radius
