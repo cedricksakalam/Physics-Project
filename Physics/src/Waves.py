@@ -107,7 +107,7 @@ class SoundWaveCalculator:
 
     def create_input_fields(self):
         fields = [
-            "period", "frequency", "wavelength", "speed_of_sound"
+            "period", "frequency", "wavelength", "speed of sound"
         ]
 
         for idx, field in enumerate(fields):
