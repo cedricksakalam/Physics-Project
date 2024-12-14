@@ -66,12 +66,8 @@ class MechanicsCalculator:
             "Power": (self.calculate_power, ["work", "time"], "P = W / t", "W"),
             "Momentum": (self.calculate_momentum, ["mass", "velocity"], "p = m * v", "kg·m/s"),
             "Impulse": (self.calculate_impulse, ["force", "time"], "I = F * t", "N·s"),
-            "Circular Velocity": (self.calculate_circular_velocity, ["radius", "period"], "v = 2 * π * r / T", "m/s"),
-            "Centripetal Acceleration": (self.calculate_centripetal_acceleration, ["velocity", "radius"], "a_c = v^2 / r", "m/s²"),
-            "Torque": (self.calculate_torque, ["force", "lever_arm"], "τ = F * r * sin(θ)", "N·m"),
-            "Angular Velocity": (self.calculate_angular_velocity, ["angular_displacement", "time"], "ω = θ / t", "rad/s"),
-            "Angular Acceleration": (self.calculate_angular_acceleration, ["angular_velocity", "time"], "α = (ω - ω_0) / t", "rad/s²"),
-            }
+            "Circular Velocity": (self.calculate_circular_velocity, ["radius", "period"], "v = 2 * π * r / T", "m/s")
+        }
 
         self.operation_var = tk.StringVar()
         self.operation_menu = ttk.Combobox(
@@ -111,8 +107,7 @@ class MechanicsCalculator:
         fields = [
             ("initial_velocity", "m/s"), ("acceleration", "m/s²"), ("time", "s"), ("final_velocity", "m/s"),
             ("mass", "kg"), ("velocity", "m/s"), ("force", "N"), ("displacement", "m"), ("angle", "°"), 
-            ("work", "J"), ("radius", "m"), ("period", "s"), ("lever_arm", "m"), ("angular_displacement", "rad"), 
-            ("angular_velocity", "rad/s")
+            ("work", "J"), ("radius", "m"), ("period", "s")
         ]
 
         for idx, (field, unit) in enumerate(fields):
@@ -228,18 +223,6 @@ class MechanicsCalculator:
 
     def calculate_circular_velocity(self):
         return self.mechanics.calculate_circular_velocity()
-
-    def calculate_centripetal_acceleration(self):
-        return self.mechanics.calculate_centripetal_acceleration()
-
-    def calculate_torque(self):
-        return self.mechanics.calculate_torque()
-
-    def calculate_angular_velocity(self):
-        return self.mechanics.calculate_angular_velocity()
-
-    def calculate_angular_acceleration(self):
-        return self.mechanics.calculate_angular_acceleration()
 
 if __name__ == "__main__":
     root = tk.Tk()
