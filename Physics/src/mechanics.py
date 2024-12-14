@@ -36,7 +36,7 @@ class MechanicsCalculator:
         self.title_label = ttk.Label(
             self.main_frame,
             text="Solving Mechanics",
-            font=("Arial", 60, "bold"),
+            font=("Impact", 60, "bold"),
             anchor="center",
             style="TLabel"
         )

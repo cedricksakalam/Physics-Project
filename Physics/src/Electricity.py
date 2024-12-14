@@ -38,8 +38,8 @@ class ElectricityCalculator:
         # Title label
         self.title_label = ttk.Label(
             self.main_frame,
-            text="Electricity Calculator",
-            font=("Arial", 60, "bold"),
+            text="Solving Electricity",
+            font=("Impact", 60, "bold"),
             anchor="center",
             style="TLabel"
         )

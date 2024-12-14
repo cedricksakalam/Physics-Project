@@ -38,8 +38,8 @@ class SoundWaveCalculator:
         # Title label
         self.title_label = ttk.Label(
             self.main_frame,
-            text="Sound Wave Calculator",
-            font=("Arial", 60, "bold"),
+            text="Solving Sound Waves",
+            font=("Impact", 60, "bold"),
             anchor="center",
             style="TLabel"
         )
